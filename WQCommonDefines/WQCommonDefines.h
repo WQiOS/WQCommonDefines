@@ -5,6 +5,40 @@
 #pragma mark- 变量-AppDelegate
 #define WQAPPDELEGATE ((AppDelegate*)[[UIApplication sharedApplication] delegate])
 
+#pragma mark- weakify、strongify的宏定义
+#define WeakSelf __weak __typeof(&*self)weakSelf = self
+
+#ifndef weakify
+#if DEBUG
+#if __has_feature(objc_arc)
+#define weakify(object) autoreleasepool{} __weak __typeof__(object) weak##_##object = object;
+#else
+#define weakify(object) autoreleasepool{} __block __typeof__(object) block##_##object = object;
+#endif
+#else
+#if __has_feature(objc_arc)
+#define weakify(object) try{} @finally{} {} __weak __typeof__(object) weak##_##object = object;
+#else
+#define weakify(object) try{} @finally{} {} __block __typeof__(object) block##_##object = object;
+#endif
+#endif
+#endif
+
+#ifndef strongify
+#if DEBUG
+#if __has_feature(objc_arc)
+#define strongify(object) autoreleasepool{} __typeof__(object) object = weak##_##object;
+#else
+#define strongify(object) autoreleasepool{} __typeof__(object) object = block##_##object;
+#endif
+#else
+#if __has_feature(objc_arc)
+#define strongify(object) try{} @finally{} __typeof__(object) object = weak##_##object;
+#else
+#define strongify(object) try{} @finally{} __typeof__(object) object = block##_##object;
+#endif
+#endif
+#endif
 
 #pragma mark - 变量-编译相关
 // 判断当前是否debug编译模式
@@ -53,10 +87,10 @@
 
 
 #pragma mark - 变量-设备相关
-// 操作系统版本号
+#pragma mark - 操作系统版本号
 #define IOS_VERSION ([[[UIDevice currentDevice] systemVersion] floatValue])
 
-// 系统版本判断
+#pragma mark - 系统版本判断
 #define iOS7Later ([UIDevice currentDevice].systemVersion.floatValue >= 7.0f)
 #define iOS8Later ([UIDevice currentDevice].systemVersion.floatValue >= 8.0f)
 #define iOS9Later ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
@@ -67,14 +101,32 @@
 #define iOS9Before ([UIDevice currentDevice].systemVersion.floatValue < 9.0f)
 #define iOS8Before ([UIDevice currentDevice].systemVersion.floatValue < 8.0f)
 
+#pragma mark - 判断设备iPhone4
+#define iPhone4s ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#pragma mark - 判断设备iPhone5
+#define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#pragma mark - 判断iphone6
+#define iPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#pragma mark - 判断iphone6+
+#define iPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#pragma mark - 判断iphoneX
+#define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125,2436), [[UIScreen mainScreen] currentMode].size) : NO)
+
 #pragma mark - 变量-布局相关
 
 #define Width(v)                CGRectGetWidth((v).frame)
 #define Height(v)               CGRectGetHeight((v).frame)
 
-// bounds && nativeBounds / scale && nativeScale
-#define ScreenBoundsSize ([[UIScreen mainScreen] bounds].size)
-#define ScreenNativeBoundsSize (IOS_VERSION >= 8.0 ? ([[UIScreen mainScreen] nativeBounds].size) : ScreenBoundsSize)
+#pragma mark - 屏幕高度、宽度
+#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+
+#pragma mark - 屏幕高度、宽度
+#define ScreenNativeBoundsSize (IOS_VERSION >= 8.0 ? ([[UIScreen mainScreen] nativeBounds].size) : SCREEN_WIDTH)
 #define ScreenScale ([[UIScreen mainScreen] scale])
 #define ScreenNativeScale (IOS_VERSION >= 8.0 ? ([[UIScreen mainScreen] nativeScale]) : ScreenScale)
 
