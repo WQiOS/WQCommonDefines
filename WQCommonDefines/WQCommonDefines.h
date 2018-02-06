@@ -6,6 +6,7 @@
 #define WQAPPDELEGATE ((AppDelegate*)[[UIApplication sharedApplication] delegate])
 
 #pragma mark- weakify、strongify的宏定义
+
 #define WeakSelf __weak __typeof(&*self)weakSelf = self
 
 #ifndef weakify
@@ -134,9 +135,11 @@
 #define ScreenInDisplayZoomMode (ScreenNativeScale > ScreenScale)
 
 // 状态栏高度(来电等情况下，状态栏高度会发生变化，所以应该实时计算)
-#define StatusBarHeight (IOS_VERSION >= 8.0 ? ([[UIApplication sharedApplication] statusBarFrame].size.height) : (IS_LANDSCAPE ? ([[UIApplication sharedApplication] statusBarFrame].size.width) : ([[UIApplication sharedApplication] statusBarFrame].size.height)))
+#define kStatusBarHeight (IOS_VERSION >= 8.0 ? ([[UIApplication sharedApplication] statusBarFrame].size.height) : (IS_LANDSCAPE ? ([[UIApplication sharedApplication] statusBarFrame].size.width) : ([[UIApplication sharedApplication] statusBarFrame].size.height)))
 
+#define KNavgiationBarHeight CGRectGetHeight(self.navigationController.navigationBar.frame)
 
+#define KTabBarHeight ([[UIApplication sharedApplication] statusBarFrame].size.height>20?83:49)
 
 
 #pragma mark - 方法-创建器

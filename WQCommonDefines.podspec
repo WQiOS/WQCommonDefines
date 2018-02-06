@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "WQCommonDefines"
-s.version      = "0.0.1"
+s.version      = "0.0.2"
 s.summary      = "iOS所有项目通用的宏定义，欢迎使用和添加"
 s.description  = <<-DESC
                  自己总结的通用的宏定义的Pod库，欢迎使用和添加。
