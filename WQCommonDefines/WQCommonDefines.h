@@ -2,10 +2,10 @@
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 
-#pragma mark- 变量-AppDelegate
+#pragma mark - 变量-AppDelegate
 #define WQAPPDELEGATE ((AppDelegate*)[[UIApplication sharedApplication] delegate])
 
-#pragma mark- weakify、strongify的宏定义
+#pragma mark - weakify、strongify的宏定义
 
 #define WeakSelf __weak __typeof(&*self)weakSelf = self
 
@@ -49,7 +49,7 @@
 #define IS_DEBUG NO
 #endif
 
-// 获取项目版本号
+#pragma mark - 获取项目版本号
 #define CURRENT_VERSION [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
 
 // 使用iOS8 API时要加`ifdef IOS8_SDK_ALLOWED`的判断
@@ -92,15 +92,15 @@
 #define IOS_VERSION ([[[UIDevice currentDevice] systemVersion] floatValue])
 
 #pragma mark - 系统版本判断
-#define iOS7Later ([UIDevice currentDevice].systemVersion.floatValue >= 7.0f)
-#define iOS8Later ([UIDevice currentDevice].systemVersion.floatValue >= 8.0f)
-#define iOS9Later ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
-#define iOS10Later ([UIDevice currentDevice].systemVersion.floatValue >= 10.0f)
-#define iOS11Later ([UIDevice currentDevice].systemVersion.floatValue >= 11.0f)
+#define iOS7Later   ([UIDevice currentDevice].systemVersion.floatValue >= 7.0f)
+#define iOS8Later   ([UIDevice currentDevice].systemVersion.floatValue >= 8.0f)
+#define iOS9Later   ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
+#define iOS10Later  ([UIDevice currentDevice].systemVersion.floatValue >= 10.0f)
+#define iOS11Later  ([UIDevice currentDevice].systemVersion.floatValue >= 11.0f)
 #define iOS11Before ([UIDevice currentDevice].systemVersion.floatValue < 11.0f)
 #define iOS10Before ([UIDevice currentDevice].systemVersion.floatValue < 10.0f)
-#define iOS9Before ([UIDevice currentDevice].systemVersion.floatValue < 9.0f)
-#define iOS8Before ([UIDevice currentDevice].systemVersion.floatValue < 8.0f)
+#define iOS9Before  ([UIDevice currentDevice].systemVersion.floatValue < 9.0f)
+#define iOS8Before  ([UIDevice currentDevice].systemVersion.floatValue < 8.0f)
 
 #pragma mark - 判断设备iPhone4
 #define iPhone4s ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
@@ -170,7 +170,7 @@ EndIgnoreAvailabilityWarning
 
 #pragma mark - 其他
 
-// NSLog（会打印文件名、行数、具体目标）
+// NSLog（打印文件名、行数、具体目标）
 #ifdef DEBUG
 #define NSLog(FORMAT, ...) fprintf(stderr, "%s:%zd\t%s\n", [[[NSString stringWithUTF8String: __FILE__] lastPathComponent] UTF8String], __LINE__, [[NSString stringWithFormat: FORMAT, ## __VA_ARGS__] UTF8String]);
 #else
